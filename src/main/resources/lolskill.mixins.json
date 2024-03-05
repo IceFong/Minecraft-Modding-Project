@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.ssorangecat.lolskill.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "lolskill.refmap.json",
+  "mixins": [
+    "MixinLivingEntity",
+    "MixinPlayerEntity"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

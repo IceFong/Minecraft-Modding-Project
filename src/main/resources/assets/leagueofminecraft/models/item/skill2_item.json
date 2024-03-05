@@ -1,0 +1,10 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "leagueofminecraft:item/w"
+  },
+  "overrides": [
+    { "predicate": { "charged": 0 }, "model": "leagueofminecraft:item/skill2_item" },
+    { "predicate": { "charged": 1 }, "model": "leagueofminecraft:item/skill2c_item" }
+  ]
+}

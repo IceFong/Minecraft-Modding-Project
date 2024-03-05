@@ -1,0 +1,58 @@
+{
+  "q_fires": {
+    "sounds": [
+      {
+        "name": "leagueofminecraft:q_fires"
+      }
+    ]
+  },
+  "q_hit": {
+    "sounds": [
+      {
+        "name": "leagueofminecraft:q_hit"
+      }
+    ]
+  },
+  "q_2_cast": {
+    "sounds": [
+      {
+        "name": "leagueofminecraft:q_2_cast"
+      }
+    ]
+  },
+  "w_cast": {
+    "sounds": [
+      {
+        "name": "leagueofminecraft:w_cast"
+      }
+    ]
+  },
+  "w_2_cast": {
+    "sounds": [
+      {
+        "name": "leagueofminecraft:w_2_cast"
+      }
+    ]
+  },
+  "e_cast": {
+    "sounds": [
+      {
+        "name": "leagueofminecraft:e_cast"
+      }
+    ]
+  },
+  "e_2_cast": {
+    "sounds": [
+      {
+        "name": "leagueofminecraft:e_2_cast"
+      }
+    ]
+  },
+  "r_cast": {
+    "sounds": [
+      {
+        "name": "leagueofminecraft:r_cast"
+      }
+    ]
+  }
+}
