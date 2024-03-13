@@ -6,17 +6,16 @@ import org.joml.Vector3f;
 import org.slf4j.Logger;
 
 import net.icecheese.leagueofminecraft.characterskill.MyRegisterObjects;
-import net.icecheese.leagueofminecraft.characterskill.leesin.entity.Skill2Entity;
-import net.icecheese.leagueofminecraft.characterskill.leesin.entity.SkillEntity;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.SkillEntityRender;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill1_Item;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
+import net.icecheese.leagueofminecraft.characterskill.leesin.network.InputEventPacket;
+import net.icecheese.leagueofminecraft.characterskill.leesin.network.messages.PlayerActionPacket;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -55,6 +54,12 @@ public class LeagueOfMinecraft {
         MyRegisterObjects.THROWN.register(modEventBus);
         MyRegisterObjects.CREATIVE_MODE_TABS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
+        InputEventPacket.INSTANCE.registerMessage(
+                InputEventPacket.PACKET_ID++, 
+                PlayerActionPacket.class, 
+                PlayerActionPacket::Encoder, 
+                PlayerActionPacket::Decoder, 
+                InputEventPacket::handle);
     }
 
 

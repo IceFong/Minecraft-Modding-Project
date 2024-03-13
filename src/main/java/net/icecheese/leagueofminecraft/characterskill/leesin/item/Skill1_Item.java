@@ -32,6 +32,7 @@ public class Skill1_Item extends Item {
     }
     public @NotNull InteractionResultHolder<ItemStack> use(Level p_43142_, Player player, @NotNull InteractionHand p_43144_) {
         ItemStack itemStack = player.getItemInHand(p_43144_);
+        String s  = (p_43142_.isClientSide) ? "Yes" : "No"; System.out.println(s);
         //  p_43142_.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (p_43142_.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!p_43142_.isClientSide) {
             if (!charged) {
