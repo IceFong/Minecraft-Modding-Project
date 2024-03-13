@@ -54,6 +54,7 @@ public class LeagueOfMinecraft {
         MyRegisterObjects.THROWN.register(modEventBus);
         MyRegisterObjects.CREATIVE_MODE_TABS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.post(null);
         InputEventPacket.INSTANCE.registerMessage(
                 InputEventPacket.PACKET_ID++, 
                 PlayerActionPacket.class, 

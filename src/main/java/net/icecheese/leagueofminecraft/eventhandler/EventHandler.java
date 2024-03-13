@@ -1,9 +1,12 @@
 package net.icecheese.leagueofminecraft.eventhandler;
 
+import java.util.List;
+
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.InputConstants;
 
 import ca.weblite.objc.Message;
+import cpw.mods.modlauncher.api.ITransformer.Target;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill1_Item;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill2_Item;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill3_Item;
@@ -13,15 +16,25 @@ import net.icecheese.leagueofminecraft.characterskill.leesin.network.messages.Pl
 import net.icecheese.leagueofminecraft.characterskill.leesin.network.messages.PlayerAction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteractSpecific;
+import net.minecraftforge.event.level.NoteBlockEvent.Play;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -74,19 +87,58 @@ public class EventHandler {
             }
         }
         if (event.getKey() == InputConstants.KEY_V && event.getAction() == InputConstants.PRESS) {
+            
             ItemStack mainHoldItem = Minecraft.getInstance().player.getMainHandItem();
-            if (mainHoldItem.getItem() instanceof Skill4_Item) {
+            LivingEntity entity = getLineOfSightEntity(player);
+            if (mainHoldItem.getItem() instanceof Skill4_Item && entity != null) {
                 InputEventPacket.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.LeeSin_Skill_4));
             }
+            player.interact(player, null);
         }
 
     }
 
-    @SubscribeEvent
-    public static void EntityInteractEvent( PlayerEvent.StartTracking event ) {
+    private static LivingEntity getLineOfSightEntity(Player player) {
+        List<LivingEntity> listOfLivingEntity = player.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, player, AABB.ofSize(player.getPosition(1.0F),10,10,10));
+        
+        Vec3 playerView = player.getViewVector(1.0F).normalize();
+        Vec3 playerEyeCoord = player.getEyePosition();
+        for (LivingEntity livingEntity : listOfLivingEntity) {
+            AABB boundingBox = livingEntity.getBoundingBox();
+            Vec3 entityCenter = boundingBox.getCenter();
+            Vec3 viewVec3 = new Vec3( playerEyeCoord.x - entityCenter.x, playerEyeCoord.y - entityCenter.y, playerEyeCoord.z - entityCenter.z );
+            Vec3 vec3_f = viewVec3.add(playerEyeCoord);
+            
+            // if (boundingBox.contains(vec3_f) ) {
+            //     System.out.println("is in bound");
+            //     return livingEntity;
+            // }
+            System.out.println("bounding box center = " + "(" + entityCenter.x + " " + entityCenter.y + " " + entityCenter.z +")");
+            if (boundingBox.intersects(new Vec3(0, 0, 0), new Vec3(50, 80, 50))) {
+                System.out.println("in bound");
+            }
+            else {
+                System.out.println("not in bound");
+            }
+        
+        }
 
-        System.out.println(event.getTarget().getName());
+        return null;
 
+        // Vec3 vec31 = new Vec3(this.getX() - player.getX(), this.getEyeY() - player.getEyeY(), this.getZ() - player.getZ());
+        // double d0 = vec31.length();
+        // vec31 = vec31.normalize();
+        // double d1 = vec3.dot(vec31);
+        // return d1 > 1.0D - 0.025D / d0 ? player.hasLineOfSight(this) : false;
     }
+
+    // @SubscribeEvent
+    // public static void EntityInteractEvent(  ) {
+        
+    //     Player player;
+    //     EnderMan
+    //     System.out.println("\n\ninteractAt");
+
+    // }
 
 }
