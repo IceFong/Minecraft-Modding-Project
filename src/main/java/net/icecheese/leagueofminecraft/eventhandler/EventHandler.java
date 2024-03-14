@@ -89,56 +89,11 @@ public class EventHandler {
         if (event.getKey() == InputConstants.KEY_V && event.getAction() == InputConstants.PRESS) {
             
             ItemStack mainHoldItem = Minecraft.getInstance().player.getMainHandItem();
-            LivingEntity entity = getLineOfSightEntity(player);
-            if (mainHoldItem.getItem() instanceof Skill4_Item && entity != null) {
+            if (mainHoldItem.getItem() instanceof Skill4_Item) {
                 InputEventPacket.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.LeeSin_Skill_4));
             }
-            player.interact(player, null);
         }
 
     }
-
-    private static LivingEntity getLineOfSightEntity(Player player) {
-        List<LivingEntity> listOfLivingEntity = player.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, player, AABB.ofSize(player.getPosition(1.0F),10,10,10));
-        
-        Vec3 playerView = player.getViewVector(1.0F).normalize();
-        Vec3 playerEyeCoord = player.getEyePosition();
-        for (LivingEntity livingEntity : listOfLivingEntity) {
-            AABB boundingBox = livingEntity.getBoundingBox();
-            Vec3 entityCenter = boundingBox.getCenter();
-            Vec3 viewVec3 = new Vec3( playerEyeCoord.x - entityCenter.x, playerEyeCoord.y - entityCenter.y, playerEyeCoord.z - entityCenter.z );
-            Vec3 vec3_f = viewVec3.add(playerEyeCoord);
-            
-            // if (boundingBox.contains(vec3_f) ) {
-            //     System.out.println("is in bound");
-            //     return livingEntity;
-            // }
-            System.out.println("bounding box center = " + "(" + entityCenter.x + " " + entityCenter.y + " " + entityCenter.z +")");
-            if (boundingBox.intersects(new Vec3(0, 0, 0), new Vec3(50, 80, 50))) {
-                System.out.println("in bound");
-            }
-            else {
-                System.out.println("not in bound");
-            }
-        
-        }
-
-        return null;
-
-        // Vec3 vec31 = new Vec3(this.getX() - player.getX(), this.getEyeY() - player.getEyeY(), this.getZ() - player.getZ());
-        // double d0 = vec31.length();
-        // vec31 = vec31.normalize();
-        // double d1 = vec3.dot(vec31);
-        // return d1 > 1.0D - 0.025D / d0 ? player.hasLineOfSight(this) : false;
-    }
-
-    // @SubscribeEvent
-    // public static void EntityInteractEvent(  ) {
-        
-    //     Player player;
-    //     EnderMan
-    //     System.out.println("\n\ninteractAt");
-
-    // }
 
 }
