@@ -69,6 +69,8 @@ public class InputEventPacket {
 		ItemStack mainHoldItem = player.getItemInHand(hand);
 
 		List<LivingEntity> listOfLivingEntity = player.level().getNearbyEntities(LivingEntity.class, TargetingConditions.DEFAULT, player, AABB.ofSize(player.getPosition(1.0F),10,10,10));
+		float dis_low = 10000.0f;
+		LivingEntity entityToKick = null;
 		for (LivingEntity livingEntity : listOfLivingEntity) {
 			// Do player eye view and intersects with entity AABB
 			Vec3 playerEye = player.getEyePosition();
@@ -77,13 +79,25 @@ public class InputEventPacket {
 
 			ClipResult clipResult = Vec3ClipLine(3, entityAABB, playerEye, playerEye.add(playerView));
 			if (clipResult.result) {
-				mainHoldItem.interactLivingEntity(player, livingEntity, hand);
-				System.out.println("kick!!!");
+				// Find nearest entity
+				float dis = player.distanceTo(livingEntity);
+				if (dis_low > dis) {
+					dis_low = dis;
+					entityToKick = livingEntity;
+				}
 			}
 		}
-		
+
+		if (entityToKick != null) {
+			mainHoldItem.interactLivingEntity(player, entityToKick, hand);
+		}
 
 	}
+
+
+	/*
+	 * Find intersection of a line with AABB 
+	 */
 
 	private static ClipResult Vec3ClipLine(int dim, final AABB aabb, Vec3 v0, Vec3 v1) {
         // System.out.println("dim = " + dim);
@@ -160,7 +174,7 @@ public class InputEventPacket {
             result = false;
         }
 
-        System.out.println("f_low = " + f_low + ", f_high = " + f_high);
+        // System.out.println("f_low = " + f_low + ", f_high = " + f_high);
 	
         return clipResult;
     }

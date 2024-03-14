@@ -1,9 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "org.ssorangecat.lolskill.mixin",
+  "package": "net.icecheese.leagueofminecraft.characterskill.leesin.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "lolskill.refmap.json",
+  "refmap": "leagueofminecraft.refmap.json",
   "mixins": [
     "MixinLivingEntity",
     "MixinPlayerEntity"

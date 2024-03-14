@@ -29,38 +29,28 @@ public class LeagueOfMinecraft {
 
     public static final String MODID = "leagueofminecraft";
     private static final Logger LOGGER = LogUtils.getLogger();
+    private static ThirdPerson thirdPerson;
 
     public LeagueOfMinecraft() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        /*
-         * Network packet
-         */
-        // INSTANCE.registerMessage(messageIndex++, MotionPacket.class, MotionPacket::encode, MotionPacket::decode, (packet, context) -> {
-        //     context.get().enqueueWork(() -> {
-        //         AbstractClientPlayer player = null;
-        //         if (Minecraft.getInstance().level != null) {
-        //             player = (AbstractClientPlayer) Minecraft.getInstance().level.getPlayerByUUID(packet.getUuid());
-        //         }
-        //         if (player != null) {
-        //             Vector3f vector3f = packet.getVec3f();
-        //             Vec3 vec3d = new Vec3(vector3f.x,vector3f.y,vector3f.z);
-        //             Vec3 vec3d_ = (new Vec3(vec3d.x - player.getX(), vec3d.y - player.getY(), vec3d.z - player.getZ()));
-        //             player.setDeltaMovement(player.getDeltaMovement().add(vec3d_));
-        //         }
-        //     });
-        //     context.get().setPacketHandled(true);
-        // });
+
+        // Objects
         MyRegisterObjects.ITEMS.register(modEventBus);
         MyRegisterObjects.THROWN.register(modEventBus);
         MyRegisterObjects.CREATIVE_MODE_TABS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.post(null);
+
+        // Network
         InputEventPacket.INSTANCE.registerMessage(
                 InputEventPacket.PACKET_ID++, 
                 PlayerActionPacket.class, 
                 PlayerActionPacket::Encoder, 
                 PlayerActionPacket::Decoder, 
                 InputEventPacket::handle);
+
+        // Third person camera
+        thirdPerson = new ThirdPerson();
     }
 
 
