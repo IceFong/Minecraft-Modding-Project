@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.icecheese.leagueofminecraft.characterskill.leesin.mixin",
+  "package": "net.icecheese.leagueofminecraft.characterskill.leesin.mixin", 
   "compatibilityLevel": "JAVA_8",
   "refmap": "leagueofminecraft.refmap.json",
   "mixins": [
@@ -9,6 +9,8 @@
     "MixinPlayerEntity"
   ],
   "client": [
+    "MixinLivingEntity",
+    "MixinPlayerEntity"
   ],
   "injectors": {
     "defaultRequire": 1

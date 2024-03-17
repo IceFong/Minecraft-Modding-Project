@@ -1,4 +1,4 @@
-package net.icecheese.leagueofminecraft.eventhandler;
+package net.icecheese.leagueofminecraft.event.eventhandler;
 
 import java.util.List;
 
@@ -11,9 +11,12 @@ import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill1_Item;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill2_Item;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill3_Item;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill4_Item;
-import net.icecheese.leagueofminecraft.characterskill.leesin.network.InputEventPacket;
-import net.icecheese.leagueofminecraft.characterskill.leesin.network.messages.PlayerActionPacket;
-import net.icecheese.leagueofminecraft.characterskill.leesin.network.messages.PlayerAction;
+import net.icecheese.leagueofminecraft.event.ManaEvent;
+import net.icecheese.leagueofminecraft.network.InputNetworkHandler;
+import net.icecheese.leagueofminecraft.network.messages.PlayerAction;
+import net.icecheese.leagueofminecraft.network.messages.PlayerActionPacket;
+import net.icecheese.leagueofminecraft.player.PlayerCapabilities;
+import net.icecheese.leagueofminecraft.player.PlayerManaSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -71,28 +74,30 @@ public class EventHandler {
         if (event.getKey() == InputConstants.KEY_Z && event.getAction() == InputConstants.PRESS) {
             ItemStack mainHoldItem = Minecraft.getInstance().player.getMainHandItem();
             if (mainHoldItem.getItem() instanceof Skill1_Item) {
-                InputEventPacket.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.GeneralSkillUse));
+                InputNetworkHandler.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.GeneralSkillUse));
             }
         }
         if (event.getKey() == InputConstants.KEY_X && event.getAction() == InputConstants.PRESS) {
             ItemStack mainHoldItem = Minecraft.getInstance().player.getMainHandItem();
             if (mainHoldItem.getItem() instanceof Skill2_Item) {
-                InputEventPacket.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.GeneralSkillUse));
+                InputNetworkHandler.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.GeneralSkillUse));
             }
         }
         if (event.getKey() == InputConstants.KEY_C && event.getAction() == InputConstants.PRESS) {
             ItemStack mainHoldItem = Minecraft.getInstance().player.getMainHandItem();
             if (mainHoldItem.getItem() instanceof Skill3_Item) {
-                InputEventPacket.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.GeneralSkillUse));
+                InputNetworkHandler.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.GeneralSkillUse));
             }
         }
         if (event.getKey() == InputConstants.KEY_V && event.getAction() == InputConstants.PRESS) {
             ItemStack mainHoldItem = Minecraft.getInstance().player.getMainHandItem();
             if (mainHoldItem.getItem() instanceof Skill4_Item) {
-                InputEventPacket.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.LeeSin_Skill_4));
+                InputNetworkHandler.INSTANCE.sendToServer(new PlayerActionPacket(PlayerAction.LeeSin_Skill_4));
             }
         }
 
     }
+
+    
 
 }

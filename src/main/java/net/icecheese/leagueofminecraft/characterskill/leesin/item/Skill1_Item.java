@@ -1,8 +1,11 @@
 package net.icecheese.leagueofminecraft.characterskill.leesin.item;
 
-import net.icecheese.leagueofminecraft.characterskill.MyRegisterObjects;
+import net.icecheese.leagueofminecraft.MyRegisterObjects;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.SkillEntity;
 import net.icecheese.leagueofminecraft.characterskill.leesin.handler.SoundHandler;
+import net.icecheese.leagueofminecraft.event.ManaEvent;
+import net.icecheese.leagueofminecraft.player.PlayerCapabilities;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.commands.PlaySoundCommand;
@@ -21,6 +24,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.JukeboxBlock;
 import net.minecraft.world.level.block.NoteBlock;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent;
+
 import org.jetbrains.annotations.NotNull;
 
 public class Skill1_Item extends Item {
@@ -32,7 +38,6 @@ public class Skill1_Item extends Item {
     }
     public @NotNull InteractionResultHolder<ItemStack> use(Level p_43142_, Player player, @NotNull InteractionHand p_43144_) {
         ItemStack itemStack = player.getItemInHand(p_43144_);
-        String s  = (p_43142_.isClientSide) ? "Yes" : "No"; System.out.println(s);
         //  p_43142_.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (p_43142_.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!p_43142_.isClientSide) {
             if (!charged) {
@@ -43,6 +48,8 @@ public class Skill1_Item extends Item {
                 player.getCooldowns().addCooldown(this, 160);
                 ResourceLocation soundID = MyRegisterObjects.Q_FIRES.getId();
                 SoundHandler.playSoundToNear((ServerPlayer) player, soundID, SoundSource.PLAYERS, 1.0F, 1.0F);
+                // Consume Mana Event
+                MinecraftForge.EVENT_BUS.post(new ManaEvent.ConsumeManaEvent(player, 15.0f));
             } else {
                 player.getCooldowns().addCooldown(this, 10);
                 CompoundTag tag = player.getPersistentData();
@@ -60,9 +67,14 @@ public class Skill1_Item extends Item {
                 }
                 ResourceLocation soundID = MyRegisterObjects.Q_2_CAST.getId();
                 SoundHandler.playSoundToNear((ServerPlayer) player, soundID, SoundSource.PLAYERS, 1.0F, 1.0F);
+                // Consume Mana Event
+                MinecraftForge.EVENT_BUS.post(new ManaEvent.ConsumeManaEvent(player, 15.0f));
             }
         }
         player.awardStat(Stats.ITEM_USED.get(this));
+        
+        
+       
         return InteractionResultHolder.sidedSuccess(itemStack, p_43142_.isClientSide());
     }
 

@@ -1,6 +1,5 @@
-package net.icecheese.leagueofminecraft.characterskill;
+package net.icecheese.leagueofminecraft;
 
-import net.icecheese.leagueofminecraft.LeagueOfMinecraft;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.SkillEntity;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.Skill2Entity;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.SkillEntityRender;

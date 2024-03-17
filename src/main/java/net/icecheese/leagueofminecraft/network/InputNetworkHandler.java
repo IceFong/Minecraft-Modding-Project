@@ -1,10 +1,10 @@
-package net.icecheese.leagueofminecraft.characterskill.leesin.network;
+package net.icecheese.leagueofminecraft.network;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-import net.icecheese.leagueofminecraft.characterskill.leesin.network.messages.PlayerActionPacket;
-import net.icecheese.leagueofminecraft.characterskill.leesin.network.messages.PlayerAction;
+import net.icecheese.leagueofminecraft.network.messages.PlayerAction;
+import net.icecheese.leagueofminecraft.network.messages.PlayerActionPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -23,9 +24,8 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
-public class InputEventPacket {
+public class InputNetworkHandler {
 
-	public static int PACKET_ID = 0;
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
         new ResourceLocation("leagueofminecraft", "inputeventpacket"),
@@ -78,7 +78,7 @@ public class InputEventPacket {
 			AABB entityAABB = livingEntity.getBoundingBox();
 
 			ClipResult clipResult = Vec3ClipLine(3, entityAABB, playerEye, playerEye.add(playerView));
-			if (clipResult.result) {
+			if (clipResult.result && player.hasLineOfSight(livingEntity)) {
 				// Find nearest entity
 				float dis = player.distanceTo(livingEntity);
 				if (dis_low > dis) {

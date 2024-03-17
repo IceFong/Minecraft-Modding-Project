@@ -2,20 +2,20 @@ package net.icecheese.leagueofminecraft;
 
 import com.mojang.logging.LogUtils;
 
-import org.joml.Vector3f;
+import api.ThirdPerson;
+
 import org.slf4j.Logger;
 
-import net.icecheese.leagueofminecraft.characterskill.MyRegisterObjects;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.SkillEntityRender;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill1_Item;
-import net.icecheese.leagueofminecraft.characterskill.leesin.network.InputEventPacket;
-import net.icecheese.leagueofminecraft.characterskill.leesin.network.messages.PlayerActionPacket;
+import net.icecheese.leagueofminecraft.network.InputNetworkHandler;
+import net.icecheese.leagueofminecraft.network.ManaNetworkHandler;
+import net.icecheese.leagueofminecraft.network.messages.ManaPacket;
+import net.icecheese.leagueofminecraft.network.messages.PlayerActionPacket;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,10 +23,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(LeagueOfMinecraft.MODID)
 public class LeagueOfMinecraft {
 
+    public static int PACKET_ID = 0;
     public static final String MODID = "leagueofminecraft";
     private static final Logger LOGGER = LogUtils.getLogger();
     private static ThirdPerson thirdPerson;
@@ -42,12 +44,18 @@ public class LeagueOfMinecraft {
         MinecraftForge.EVENT_BUS.post(null);
 
         // Network
-        InputEventPacket.INSTANCE.registerMessage(
-                InputEventPacket.PACKET_ID++, 
+        InputNetworkHandler.INSTANCE.registerMessage(
+                PACKET_ID++, 
                 PlayerActionPacket.class, 
                 PlayerActionPacket::Encoder, 
                 PlayerActionPacket::Decoder, 
-                InputEventPacket::handle);
+                InputNetworkHandler::handle);
+        ManaNetworkHandler.INSTANCE.registerMessage(
+                PACKET_ID++, 
+                ManaPacket.class, 
+                ManaPacket::Encoder, 
+                ManaPacket::Decoder, 
+                ManaNetworkHandler::handle);
 
         // Third person camera
         thirdPerson = new ThirdPerson();

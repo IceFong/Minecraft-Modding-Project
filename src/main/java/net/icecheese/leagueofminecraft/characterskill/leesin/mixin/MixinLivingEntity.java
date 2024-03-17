@@ -33,8 +33,9 @@ public abstract class MixinLivingEntity extends Entity {
         super(p_19870_, p_19871_);
     }
 
-    @Inject(method = "tick()V", at = @At("HEAD"))
+    @Inject(method = "tick", at = @At("HEAD"))
     public void onTick(CallbackInfo info) {
+        // System.out.println("livingentitiy");
         if(!this.level().isClientSide){
             if(this.getPersistentData().getBoolean("skill1_trigger")){
                 ServerLevel serverLevel = (ServerLevel) this.level();
@@ -53,7 +54,7 @@ public abstract class MixinLivingEntity extends Entity {
             }
         }
     }
-    @Inject(method = "pushEntities()V", at = @At("HEAD"))
+    @Inject(method = "pushEntities", at = @At("HEAD"))
     public void onPushEntities(CallbackInfo ci) {
         if(!this.level().isClientSide){
             ServerLevel serverLevel = (ServerLevel) this.level();

@@ -1,4 +1,4 @@
-package net.icecheese.leagueofminecraft.characterskill.leesin.network.messages;
+package net.icecheese.leagueofminecraft.network.messages;
 
 import net.minecraft.network.FriendlyByteBuf;
 

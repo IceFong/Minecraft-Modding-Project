@@ -1,7 +1,7 @@
 package net.icecheese.leagueofminecraft.characterskill.leesin.entity;
 
 import net.icecheese.leagueofminecraft.LeagueOfMinecraft;
-import net.icecheese.leagueofminecraft.characterskill.MyRegisterObjects;
+import net.icecheese.leagueofminecraft.MyRegisterObjects;
 import net.icecheese.leagueofminecraft.characterskill.leesin.handler.SoundHandler;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.core.particles.DustColorTransitionOptions;

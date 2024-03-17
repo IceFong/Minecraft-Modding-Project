@@ -1,4 +1,4 @@
-package net.icecheese.leagueofminecraft;
+package api;
 
 import io.socol.betterthirdperson.BetterThirdPerson;
 import io.socol.betterthirdperson.CustomCameraConfigImpl;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 public class ThirdPerson {
 
     private static CustomCameraManager manager;
-
+    
     public ThirdPerson() {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             manager = new CustomCameraManager(ClientAdapter.INSTANCE);
