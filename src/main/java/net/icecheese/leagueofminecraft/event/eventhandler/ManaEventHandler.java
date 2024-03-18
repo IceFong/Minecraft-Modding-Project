@@ -62,6 +62,7 @@ public class ManaEventHandler {
             // Do regen mana every second
             if (player.level().getGameTime() % 20 == 0) {
                 sys.RegenMana();
+                float x = sys.mana;
                 sys.DisplayInGame(player);
                 ManaNetworkHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new ManaPacket(sys));
             }
@@ -71,7 +72,7 @@ public class ManaEventHandler {
 
 
     /*
-     * when player use mana, sycn to server current mana
+     * when player use mana event, sycn to server current mana
      */
     @SubscribeEvent
     public static void PlayerCosumeManaHandler( ManaEvent.ConsumeManaEvent event ) {
@@ -81,7 +82,12 @@ public class ManaEventHandler {
         Player player = event.player;
         player.getCapability(PlayerCapabilities.PLAYER_MANA_SYS).ifPresent(
             sys -> {
-                sys.SubMana(event.amount);
+                if (sys.mana < event.amount) {
+                    event.setCanceled(true);
+                }
+                else {
+                    sys.SubMana(event.amount);
+                }
                 ManaNetworkHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new ManaPacket(sys));
             }
         );

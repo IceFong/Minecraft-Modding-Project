@@ -36,27 +36,36 @@ public class Skill1_Item extends Item {
     public Skill1_Item(Properties p_41383_) {
         super(p_41383_);
     }
-    public @NotNull InteractionResultHolder<ItemStack> use(Level p_43142_, Player player, @NotNull InteractionHand p_43144_) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand p_43144_) {
         ItemStack itemStack = player.getItemInHand(p_43144_);
-        //  p_43142_.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (p_43142_.getRandom().nextFloat() * 0.4F + 0.8F));
-        if (!p_43142_.isClientSide) {
-            if (!charged) {
-                SkillEntity $$4 = new SkillEntity(p_43142_, player);
-                $$4.setItem(itemStack);
-                $$4.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-                p_43142_.addFreshEntity($$4);
+        //  level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
+        if (level.isClientSide) return InteractionResultHolder.fail(itemStack);
+
+        // Q1
+        if (!charged) {
+            // Consume Mana Event
+            boolean b = MinecraftForge.EVENT_BUS.post(new ManaEvent.ConsumeManaEvent(player, 15.0f));
+            if (!b) {
+                SkillEntity skillEntity = new SkillEntity(level, player);
+                skillEntity.setItem(itemStack);
+                skillEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
+                level.addFreshEntity(skillEntity);
                 player.getCooldowns().addCooldown(this, 160);
                 ResourceLocation soundID = MyRegisterObjects.Q_FIRES.getId();
                 SoundHandler.playSoundToNear((ServerPlayer) player, soundID, SoundSource.PLAYERS, 1.0F, 1.0F);
-                // Consume Mana Event
-                MinecraftForge.EVENT_BUS.post(new ManaEvent.ConsumeManaEvent(player, 15.0f));
-            } else {
+            }
+        } 
+        // Q2
+        else {
+            // Consume Mana Event
+            boolean b = MinecraftForge.EVENT_BUS.post(new ManaEvent.ConsumeManaEvent(player, 15.0f));
+            if (!b) {
                 player.getCooldowns().addCooldown(this, 10);
                 CompoundTag tag = player.getPersistentData();
                 player.teleportTo(tag.getDouble("skill1_x"), tag.getDouble("skill1_y") + 1, tag.getDouble("skill1_z"));
                 player.getPersistentData().putBoolean("skill1_charge", false);
                 charged = false;
-                ServerLevel serverLevel = (ServerLevel) p_43142_;
+                ServerLevel serverLevel = (ServerLevel) level;
                 Entity targetEntity = serverLevel.getEntity(tag.getUUID("skill1_charge_uuid"));
                 if (targetEntity instanceof LivingEntity livingEntity) {
                     livingEntity.getPersistentData().putBoolean("skill1_trigger", false);
@@ -67,15 +76,12 @@ public class Skill1_Item extends Item {
                 }
                 ResourceLocation soundID = MyRegisterObjects.Q_2_CAST.getId();
                 SoundHandler.playSoundToNear((ServerPlayer) player, soundID, SoundSource.PLAYERS, 1.0F, 1.0F);
-                // Consume Mana Event
-                MinecraftForge.EVENT_BUS.post(new ManaEvent.ConsumeManaEvent(player, 15.0f));
             }
         }
+        
         player.awardStat(Stats.ITEM_USED.get(this));
         
-        
-       
-        return InteractionResultHolder.sidedSuccess(itemStack, p_43142_.isClientSide());
+        return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
     }
 
     public static boolean checkIsCharged(ItemStack itemStack){
