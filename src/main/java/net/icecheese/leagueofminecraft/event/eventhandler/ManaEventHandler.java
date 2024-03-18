@@ -62,8 +62,8 @@ public class ManaEventHandler {
             // Do regen mana every second
             if (player.level().getGameTime() % 20 == 0) {
                 sys.RegenMana();
-                float x = sys.mana;
-                sys.DisplayInGame(player);
+                // float x = sys.mana;
+                // sys.DisplayInGame(player);
                 ManaNetworkHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new ManaPacket(sys));
             }
         });
