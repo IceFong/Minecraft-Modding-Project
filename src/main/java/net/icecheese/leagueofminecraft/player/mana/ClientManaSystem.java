@@ -1,6 +1,5 @@
-package net.icecheese.leagueofminecraft.player;
+package net.icecheese.leagueofminecraft.player.mana;
 
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class ClientManaSystem {

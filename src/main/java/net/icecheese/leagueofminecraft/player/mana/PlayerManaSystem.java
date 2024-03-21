@@ -1,12 +1,9 @@
-package net.icecheese.leagueofminecraft.player;
+package net.icecheese.leagueofminecraft.player.mana;
 
 import net.icecheese.leagueofminecraft.event.ManaEvent;
 import net.minecraftforge.common.MinecraftForge;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.joml.Math;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;

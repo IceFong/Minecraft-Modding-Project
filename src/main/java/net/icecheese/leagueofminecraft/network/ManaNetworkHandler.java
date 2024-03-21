@@ -2,15 +2,10 @@ package net.icecheese.leagueofminecraft.network;
 
 import java.util.function.Supplier;
 
-import org.antlr.v4.parse.ATNBuilder.subrule_return;
-
 import net.icecheese.leagueofminecraft.network.messages.ManaPacket;
-import net.icecheese.leagueofminecraft.network.messages.MotionPacket;
-import net.icecheese.leagueofminecraft.player.ClientManaSystem;
+import net.icecheese.leagueofminecraft.player.mana.ClientManaSystem;
 import net.icecheese.leagueofminecraft.player.PlayerCapabilities;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;

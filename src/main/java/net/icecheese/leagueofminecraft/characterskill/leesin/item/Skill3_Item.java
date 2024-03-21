@@ -2,7 +2,7 @@ package net.icecheese.leagueofminecraft.characterskill.leesin.item;
 
 import net.icecheese.leagueofminecraft.MyRegisterObjects;
 import net.icecheese.leagueofminecraft.characterskill.leesin.handler.SoundHandler;
-import net.icecheese.leagueofminecraft.player.PlayerManaSystem;
+import net.icecheese.leagueofminecraft.player.mana.PlayerManaSystem;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +23,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Skill3_Item extends Item {

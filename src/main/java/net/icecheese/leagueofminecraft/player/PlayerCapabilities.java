@@ -1,8 +1,8 @@
 package net.icecheese.leagueofminecraft.player;
 
+import net.icecheese.leagueofminecraft.player.mana.PlayerManaSystem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.stringtemplate.v4.compiler.CodeGenerator.primary_return;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

@@ -1,29 +1,19 @@
 package net.icecheese.leagueofminecraft.event.eventhandler;
 
-import org.stringtemplate.v4.compiler.CodeGenerator.region_return;
-
-import cpw.mods.modlauncher.serviceapi.ILaunchPluginService.Phase;
-import io.socol.betterthirdperson.api.TickPhase;
 import net.icecheese.leagueofminecraft.LeagueOfMinecraft;
 import net.icecheese.leagueofminecraft.event.ManaEvent;
 import net.icecheese.leagueofminecraft.network.ManaNetworkHandler;
 import net.icecheese.leagueofminecraft.network.messages.ManaPacket;
-import net.icecheese.leagueofminecraft.player.ClientManaSystem;
+import net.icecheese.leagueofminecraft.player.mana.ClientManaSystem;
 import net.icecheese.leagueofminecraft.player.PlayerCapabilities;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.Connection;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.PacketDistributor.PacketTarget;
 
 @Mod.EventBusSubscriber(modid = LeagueOfMinecraft.MODID, bus = Bus.FORGE, value = Dist.CLIENT)
 public class ManaEventHandler {

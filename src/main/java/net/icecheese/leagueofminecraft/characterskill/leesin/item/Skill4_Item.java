@@ -2,7 +2,7 @@ package net.icecheese.leagueofminecraft.characterskill.leesin.item;
 
 import net.icecheese.leagueofminecraft.MyRegisterObjects;
 import net.icecheese.leagueofminecraft.characterskill.leesin.handler.SoundHandler;
-import net.icecheese.leagueofminecraft.player.PlayerManaSystem;
+import net.icecheese.leagueofminecraft.player.mana.PlayerManaSystem;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
@@ -13,12 +13,10 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
 
 public class Skill4_Item extends Item {

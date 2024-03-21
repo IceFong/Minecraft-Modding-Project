@@ -1,6 +1,6 @@
 package net.icecheese.leagueofminecraft.network.messages;
 
-import net.icecheese.leagueofminecraft.player.PlayerManaSystem;
+import net.icecheese.leagueofminecraft.player.mana.PlayerManaSystem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 

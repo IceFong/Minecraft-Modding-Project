@@ -3,13 +3,12 @@ package net.icecheese.leagueofminecraft.player.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.icecheese.leagueofminecraft.LeagueOfMinecraft;
-import net.icecheese.leagueofminecraft.player.ClientManaSystem;
+import net.icecheese.leagueofminecraft.player.mana.ClientManaSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.ContainerScreenEvent.Render;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 // @OnlyIn(Dist.CLIENT)
