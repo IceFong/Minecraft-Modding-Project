@@ -100,6 +100,33 @@ public class EventHandler {
             }
 
         }
+
+        @SubscribeEvent
+        public static void AdjustManaBarPositionOnScreen(InputEvent.Key event) {
+
+            if (event.getKey() == InputConstants.KEY_DOWN) {
+                ManaBarGui.yCon++;
+            }
+            if (event.getKey() == InputConstants.KEY_UP) {
+                ManaBarGui.yCon--;
+            }
+            if (event.getKey() == InputConstants.KEY_LEFT) {
+                ManaBarGui.xCon--;
+            }
+            if (event.getKey() == InputConstants.KEY_RIGHT) {
+                ManaBarGui.xCon++;
+            }
+            if (event.getKey() == InputConstants.KEY_H) {
+                ManaBarGui.hCon++;
+            }
+            if (event.getKey() == InputConstants.KEY_J) {
+                ManaBarGui.jCon++;
+            }
+            if (event.getKey() == InputConstants.KEY_K) {
+                ManaBarGui.kCon++;
+            }
+
+        }
     }
 
     

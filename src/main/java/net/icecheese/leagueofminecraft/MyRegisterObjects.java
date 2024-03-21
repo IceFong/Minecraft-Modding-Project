@@ -1,5 +1,6 @@
 package net.icecheese.leagueofminecraft;
 
+import net.icecheese.leagueofminecraft.characteritem.gangplank.GanplankGunItem;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.SkillEntity;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.Skill2Entity;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.SkillEntityRender;
@@ -7,6 +8,7 @@ import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill1_Item;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill2_Item;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill3_Item;
 import net.icecheese.leagueofminecraft.characterskill.leesin.item.Skill4_Item;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -16,6 +18,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -33,10 +36,12 @@ public class MyRegisterObjects {
     /*
      * Items register objects
      */
+    private static final Item.Properties unstackableItem = new Item.Properties().stacksTo(1).rarity(Rarity.EPIC);
     public static final RegistryObject<Item> SKILL1_ITEM = ITEMS.register("skill1_item", () -> new Skill1_Item(new Item.Properties()));
     public static final RegistryObject<Item> SKILL2_ITEM = ITEMS.register("skill2_item", () -> new Skill2_Item(new Item.Properties()));
     public static final RegistryObject<Item> SKILL3_ITEM = ITEMS.register("skill3_item", () -> new Skill3_Item(new Item.Properties()));
     public static final RegistryObject<Item> SKILL4_ITEM = ITEMS.register("skill4_item", () -> new Skill4_Item(new Item.Properties()));
+    public static final RegistryObject<Item> GP_GUN_ITEM = ITEMS.register("gp_gun_item", () -> new GanplankGunItem(unstackableItem));
 
     /*
      * Throwable projectile register objects

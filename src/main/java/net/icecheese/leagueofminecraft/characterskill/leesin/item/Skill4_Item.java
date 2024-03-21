@@ -2,6 +2,7 @@ package net.icecheese.leagueofminecraft.characterskill.leesin.item;
 
 import net.icecheese.leagueofminecraft.MyRegisterObjects;
 import net.icecheese.leagueofminecraft.characterskill.leesin.handler.SoundHandler;
+import net.icecheese.leagueofminecraft.player.PlayerManaSystem;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
@@ -35,6 +36,10 @@ public class Skill4_Item extends Item {
     public InteractionResult interactLivingEntity(ItemStack p_41398_, Player player, LivingEntity livingEntity, InteractionHand p_41401_) {
         ItemStack itemStack = player.getItemInHand(p_41401_);
         if (!player.level().isClientSide && !player.getCooldowns().isOnCooldown(p_41398_.getItem())) {
+            // Consume Mana Event
+            if (!PlayerManaSystem.CheckManaAmount(player, 0.0f)) {
+                return InteractionResultHolder.pass(itemStack).getResult();
+            }
             ServerLevel serverLevel = (ServerLevel) player.level();
             livingEntity.setDeltaMovement(livingEntity.position().subtract(player.position()).normalize().scale(2.0D));
             livingEntity.hurt(serverLevel.damageSources().playerAttack(player), 10);

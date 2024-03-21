@@ -34,7 +34,7 @@ public class PlayerCapabilities implements ICapabilityProvider, INBTSerializable
     // Generate 100 mana, 100 maxMana and 0.01 rate (Could adjust in the future)
     private <T> @NotNull PlayerManaSystem createPlayerManaSystem() {
         if (this.playerManaSystem == null) {
-            this.playerManaSystem = new PlayerManaSystem(100.0f, 100.0f, 1.0f);
+            this.playerManaSystem = new PlayerManaSystem(100.0f, 100.0f, 10.0f);
         }
 
         return this.playerManaSystem;

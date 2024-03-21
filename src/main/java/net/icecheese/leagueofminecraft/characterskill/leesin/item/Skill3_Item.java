@@ -2,6 +2,7 @@ package net.icecheese.leagueofminecraft.characterskill.leesin.item;
 
 import net.icecheese.leagueofminecraft.MyRegisterObjects;
 import net.icecheese.leagueofminecraft.characterskill.leesin.handler.SoundHandler;
+import net.icecheese.leagueofminecraft.player.PlayerManaSystem;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
@@ -42,13 +43,17 @@ public class Skill3_Item extends Item {
         super(p_41383_);
     }
 
-    public @NotNull InteractionResultHolder<ItemStack> use(Level p_43142_, Player player, @NotNull InteractionHand p_43144_) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand p_43144_) {
         ItemStack itemStack = player.getItemInHand(p_43144_);
-        if (!p_43142_.isClientSide) {
-            ServerLevel serverLevel = (ServerLevel) p_43142_;
+        if (!level.isClientSide) {
+            ServerLevel serverLevel = (ServerLevel) level;
             if (!charged) {
+                // Consume Mana Event
+                if (!PlayerManaSystem.CheckManaAmount(player, 15.0f)) {
+                    return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
+                }
                 // Deal area damage around the player and mark the hit entities
-                hitEntities = p_43142_.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(4.0D));
+                hitEntities = level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(4.0D));
                 for (LivingEntity entity : hitEntities) {
                     if(!entity.getUUID().equals(player.getUUID())){
                         entity.hurt(serverLevel.damageSources().playerAttack(player), 5.0F);
@@ -67,6 +72,10 @@ public class Skill3_Item extends Item {
                 serverLevel.sendParticles(particleData,player.getX(),player.getY(),player.getZ(),150,2,0,2,0.25);
                 charged = true;
             } else {
+                // Consume Mana Event
+                if (!PlayerManaSystem.CheckManaAmount(player, 15.0f)) {
+                    return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
+                }
                 for (LivingEntity entity : hitEntities) {
                     if(!entity.getUUID().equals(player.getUUID())) {
                         entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20 * 5, 0));  // Apply Slowness I for 5 seconds
@@ -80,7 +89,7 @@ public class Skill3_Item extends Item {
             }
         }
         player.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResultHolder.sidedSuccess(itemStack, p_43142_.isClientSide());
+        return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
     }
 
     @Override

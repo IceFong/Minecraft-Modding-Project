@@ -5,6 +5,7 @@ import net.icecheese.leagueofminecraft.characterskill.leesin.entity.SkillEntity;
 import net.icecheese.leagueofminecraft.characterskill.leesin.handler.SoundHandler;
 import net.icecheese.leagueofminecraft.event.ManaEvent;
 import net.icecheese.leagueofminecraft.player.PlayerCapabilities;
+import net.icecheese.leagueofminecraft.player.PlayerManaSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -44,39 +45,40 @@ public class Skill1_Item extends Item {
         // Q1
         if (!charged) {
             // Consume Mana Event
-            boolean b = MinecraftForge.EVENT_BUS.post(new ManaEvent.ConsumeManaEvent(player, 15.0f));
-            if (!b) {
-                SkillEntity skillEntity = new SkillEntity(level, player);
-                skillEntity.setItem(itemStack);
-                skillEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-                level.addFreshEntity(skillEntity);
-                player.getCooldowns().addCooldown(this, 160);
-                ResourceLocation soundID = MyRegisterObjects.Q_FIRES.getId();
-                SoundHandler.playSoundToNear((ServerPlayer) player, soundID, SoundSource.PLAYERS, 1.0F, 1.0F);
+            if (!PlayerManaSystem.CheckManaAmount(player, 15.0f)) {
+                return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
             }
+            SkillEntity skillEntity = new SkillEntity(level, player);
+            skillEntity.setItem(itemStack);
+            skillEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
+            level.addFreshEntity(skillEntity);
+            player.getCooldowns().addCooldown(this, 160);
+            ResourceLocation soundID = MyRegisterObjects.Q_FIRES.getId();
+            SoundHandler.playSoundToNear((ServerPlayer) player, soundID, SoundSource.PLAYERS, 1.0F, 1.0F);
+
         } 
         // Q2
         else {
             // Consume Mana Event
-            boolean b = MinecraftForge.EVENT_BUS.post(new ManaEvent.ConsumeManaEvent(player, 15.0f));
-            if (!b) {
-                player.getCooldowns().addCooldown(this, 10);
-                CompoundTag tag = player.getPersistentData();
-                player.teleportTo(tag.getDouble("skill1_x"), tag.getDouble("skill1_y") + 1, tag.getDouble("skill1_z"));
-                player.getPersistentData().putBoolean("skill1_charge", false);
-                charged = false;
-                ServerLevel serverLevel = (ServerLevel) level;
-                Entity targetEntity = serverLevel.getEntity(tag.getUUID("skill1_charge_uuid"));
-                if (targetEntity instanceof LivingEntity livingEntity) {
-                    livingEntity.getPersistentData().putBoolean("skill1_trigger", false);
-                    float maxHealth = livingEntity.getMaxHealth();
-                    float currentHealth = livingEntity.getHealth();
-                    float damage = (maxHealth - currentHealth) / 2;
-                    livingEntity.hurt(serverLevel.damageSources().playerAttack(player), 6 + damage);
-                }
-                ResourceLocation soundID = MyRegisterObjects.Q_2_CAST.getId();
-                SoundHandler.playSoundToNear((ServerPlayer) player, soundID, SoundSource.PLAYERS, 1.0F, 1.0F);
+            if (!PlayerManaSystem.CheckManaAmount(player, 15.0f)) {
+                return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
             }
+            player.getCooldowns().addCooldown(this, 10);
+            CompoundTag tag = player.getPersistentData();
+            player.teleportTo(tag.getDouble("skill1_x"), tag.getDouble("skill1_y") + 1, tag.getDouble("skill1_z"));
+            player.getPersistentData().putBoolean("skill1_charge", false);
+            charged = false;
+            ServerLevel serverLevel = (ServerLevel) level;
+            Entity targetEntity = serverLevel.getEntity(tag.getUUID("skill1_charge_uuid"));
+            if (targetEntity instanceof LivingEntity livingEntity) {
+                livingEntity.getPersistentData().putBoolean("skill1_trigger", false);
+                float maxHealth = livingEntity.getMaxHealth();
+                float currentHealth = livingEntity.getHealth();
+                float damage = (maxHealth - currentHealth) / 2;
+                livingEntity.hurt(serverLevel.damageSources().playerAttack(player), 6 + damage);
+            }
+            ResourceLocation soundID = MyRegisterObjects.Q_2_CAST.getId();
+            SoundHandler.playSoundToNear((ServerPlayer) player, soundID, SoundSource.PLAYERS, 1.0F, 1.0F);
         }
         
         player.awardStat(Stats.ITEM_USED.get(this));

@@ -1,5 +1,7 @@
 package net.icecheese.leagueofminecraft.player;
 
+import net.icecheese.leagueofminecraft.event.ManaEvent;
+import net.minecraftforge.common.MinecraftForge;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.joml.Math;
 
@@ -14,6 +16,11 @@ public class PlayerManaSystem  {
     // 1. Add mana system to player (done)
     // 2. Mana can be consume and automatically regenerate
     // 3. load & save when player enter or leave
+
+    public static boolean CheckManaAmount(Player player, float mana) {
+        boolean b = MinecraftForge.EVENT_BUS.post(new ManaEvent.ConsumeManaEvent(player, mana));
+        return b;
+    }
 
     public float mana = 0.0f;
     public float maxMana = 0.0f;

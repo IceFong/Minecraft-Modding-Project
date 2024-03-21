@@ -3,6 +3,8 @@ package net.icecheese.leagueofminecraft.characterskill.leesin.item;
 import net.icecheese.leagueofminecraft.MyRegisterObjects;
 import net.icecheese.leagueofminecraft.characterskill.leesin.entity.Skill2Entity;
 import net.icecheese.leagueofminecraft.characterskill.leesin.handler.SoundHandler;
+import net.icecheese.leagueofminecraft.event.ManaEvent;
+import net.icecheese.leagueofminecraft.player.PlayerManaSystem;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -32,17 +35,23 @@ public class Skill2_Item extends Item {
         super(p_41383_);
     }
 
-    public @NotNull InteractionResultHolder<ItemStack> use(Level p_43142_, Player player, @NotNull InteractionHand p_43144_) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand p_43144_) {
         ItemStack itemStack = player.getItemInHand(p_43144_);
-        //  p_43142_.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (p_43142_.getRandom().nextFloat() * 0.4F + 0.8F));
-        if (!p_43142_.isClientSide) {
+        //  level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
+        if (!level.isClientSide) {
             if (!charged) {
-                Skill2Entity $$4 = new Skill2Entity(p_43142_, player);
+                if (!PlayerManaSystem.CheckManaAmount(player, 15.0f)) {
+                    return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
+                }
+                Skill2Entity $$4 = new Skill2Entity(level, player);
                 $$4.setItem(itemStack);
                 $$4.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-                p_43142_.addFreshEntity($$4);
+                level.addFreshEntity($$4);
                 player.getCooldowns().addCooldown(this, 200);
-            }else{
+            } else{
+                if (!PlayerManaSystem.CheckManaAmount(player, 15.0f)) {
+                    return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
+                }
                 player.getPersistentData().putBoolean("skill2_trigger",true);
                 charged = false;
                 player.getPersistentData().putBoolean("skill2_charge", false);
@@ -52,7 +61,7 @@ public class Skill2_Item extends Item {
             }
         }
         player.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResultHolder.sidedSuccess(itemStack, p_43142_.isClientSide());
+        return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide());
     }
 
     @Override
