@@ -1,5 +1,7 @@
 package net.icecheese.leagueofminecraft.player;
 
+import net.icecheese.leagueofminecraft.player.levelitem.PlayerLevelItems;
+import net.icecheese.leagueofminecraft.player.levelitem.PlayerLevelItems;
 import net.icecheese.leagueofminecraft.player.mana.PlayerManaSystem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,9 +20,14 @@ public class PlayerCapabilities implements ICapabilityProvider, INBTSerializable
     public static Capability<PlayerManaSystem> PLAYER_MANA_SYS = CapabilityManager.get(new CapabilityToken<PlayerManaSystem>() {
         
     });
+    public static Capability<PlayerLevelItems> PLAYER_LEVEL_ITEM = CapabilityManager.get(new CapabilityToken<PlayerLevelItems>() {
+
+    });
 
     private PlayerManaSystem playerManaSystem;
+    private PlayerLevelItems playerLevelItems;
     private final LazyOptional<PlayerManaSystem> optional = LazyOptional.of(this::createPlayerManaSystem);
+    private final LazyOptional<PlayerLevelItems> optionalLevelItem = LazyOptional.of(this::createPlayerLevelItems);
 
     @Override
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
@@ -39,17 +46,31 @@ public class PlayerCapabilities implements ICapabilityProvider, INBTSerializable
 
         return this.playerManaSystem;
     }
+    private <T> @NotNull PlayerLevelItems createPlayerLevelItems() {
+        if (this.playerLevelItems == null) {
+            this.playerLevelItems = new PlayerLevelItems();
+        }
 
-    @Override
-    public CompoundTag serializeNBT() {
-        CompoundTag nbt = new CompoundTag();
-        createPlayerManaSystem().save(nbt);
-        return nbt;
+        return this.playerLevelItems;
     }
 
     @Override
-    public void deserializeNBT(CompoundTag nbt) {
+    public CompoundTag serializeNBT() {
+        CompoundTag nbt = createPlayerManaSystem().save();
+        CompoundTag nbt2 = createPlayerLevelItems().save();
+
+        CompoundTag ret = new CompoundTag();
+        ret.put("leagueofminecraft.capabilities.manasystem", nbt);
+        ret.put("leagueofminecraft.capabilities.levelitems", nbt2);
+        return ret;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundTag tag) {
+        CompoundTag nbt = (CompoundTag) tag.get("leagueofminecraft.capabilities.manasystem");
+        CompoundTag nbt2 = (CompoundTag) tag.get("leagueofminecraft.capabilities.levelitems");
         createPlayerManaSystem().load(nbt);
+        createPlayerLevelItems().load(nbt2);
     }
 
 }

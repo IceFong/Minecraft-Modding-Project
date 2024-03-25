@@ -85,12 +85,14 @@ public class PlayerManaSystem  {
 
     }
 
-    public void save(CompoundTag tag) {
+    public CompoundTag save() {
 
+        CompoundTag tag = new CompoundTag();
         tag.putFloat("leagueofminecraft.mana", this.mana);
         tag.putFloat("leagueofminecraft.maxMana", this.maxMana);
         tag.putFloat("leagueofminecraft.regenRate", this.regenRate);
 
+        return tag;
     }
 
     public void DisplayInGame(Player player) {
